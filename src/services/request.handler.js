@@ -2,7 +2,7 @@ import Config from '../config';
 import RequestPromiseNative from 'request-promise-native';
 
 const options = {
-    uri: `${Config.api.url}historical/country/united%20states/indicator/gdp?${Config.api.client}&${Config.api.format}`,
+    uri: '',
     qs: {
         //access_token: 'xxxxx xxxxx' // -> uri + '?access_token=xxxxx%20xxxxx'
     },
@@ -12,12 +12,10 @@ const options = {
     json: true // Automatically parses the JSON string in the response
 };
 
-export const getItems = () => {
-		RequestPromiseNative(options)
-				.then(function (repos) {
-					console.log(repos);
-				})
-				.catch(function (err) {
-					// API call failed...
-				});
+export const getCountryIndicator = (country,indicator) => {
+		const uri = `${Config.api.url}historical/country/${country}/indicator/${indicator}?${Config.api.client}&${Config.api.format}`;
+		
+		options.uri = uri;
+	
+		return RequestPromiseNative(options);
 	};

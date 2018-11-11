@@ -2,20 +2,70 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-import {getItems} from './services/request.handler';
+import {getCountryIndicator} from './services/request.handler';
 
 class App extends Component {
 	
 	constructor(){
 		super();
-		this.getItems();
+				
+		this.state = {
+			countries: {
+				'united states':{},
+				'canada':{},
+				'italy':{},
+				'israel':{},
+				'united kingdom':{},
+				'russia':{},
+				'ukraine':{},
+				'germany':{},
+				},
+			indicators: [
+			'gdp','gdp-growth-rate','government-debt-to-gdp','gdp-per-capita','interest-rate','rating','inflation-rate','personal-income-tax-rate','wages', 'core-consumer-prices',
+			'unemployment-rate'
+			]
+		};
+		
 	}
 	
-	getItems(){
-		getItems();
+	componentDidMount(){
+		this.getAllCountries();
+	}
+	
+	convertSpaces(item){		
+		return item.replace(' ','%20');
+	}
+	
+	getCountryIndicator(country,indicator){
+		let convertedCountry = this.convertSpaces(country);
+		
+		return getCountryIndicator(convertedCountry,indicator);
 	};
 	
+	getAllCountries(){
+		let countries = {};
+		
+		for( let c in this.state.countries){
+			let countryIndicators = {};		
+			
+			for(let i of this.state.indicators ){
+				
+				this.getCountryIndicator( c,i )
+					.then(function (repos) {
+						countryIndicators[i] = repos;
+					})
+					.catch(function (err) {
+						console.log(err);
+					});
+			}
+			
+			countries[c] = countryIndicators;
+		}
+		this.setState({ countries:countries });
+	}
+	
   render() {
+	  
     return (
       <div className="App">
         <header className="App-header">
