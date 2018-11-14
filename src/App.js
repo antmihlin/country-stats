@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 import {getCountryIndicator} from './services/request.handler';
@@ -12,7 +11,9 @@ class App extends Component {
 		this.state = {
 			countries: {
 				'united states':{},
-				'canada':{},
+				'canada':{
+					'gdp':'fgbvfgbfg'
+				},
 				'italy':{},
 				'israel':{},
 				'united kingdom':{},
@@ -21,15 +22,31 @@ class App extends Component {
 				'germany':{},
 				},
 			indicators: [
-			'gdp','gdp-growth-rate','government-debt-to-gdp','gdp-per-capita','interest-rate','rating','inflation-rate','personal-income-tax-rate','wages', 'core-consumer-prices',
-			'unemployment-rate'
+			'gdp-growth-rate','government-debt-to-gdp','gdp-per-capita','interest-rate','rating','inflation-rate','personal-income-tax-rate','wages', 'core-consumer-prices','gdp',
+			'unemployment-rate' 
 			]
 		};
+		this.getCountryIndicator = this.getCountryIndicator.bind(this);
+		this.getAllCountries = this.getAllCountries.bind(this);
 		
+		this.getAllCountries();
 	}
 	
+	countries = {
+				'united states':{},
+				'canada':{
+					'gdp':'fgbvfgbfg'
+				},
+				'italy':{},
+				'israel':{},
+				'united kingdom':{},
+				'russia':{},
+				'ukraine':{},
+				'germany':{},
+				};
+	
 	componentDidMount(){
-		this.getAllCountries();
+		//this.getAllCountries();
 	}
 	
 	convertSpaces(item){		
@@ -42,26 +59,42 @@ class App extends Component {
 		return getCountryIndicator(convertedCountry,indicator);
 	};
 	
+	/*
+	 * TODO
+	 * Create promise and set received objects after resolved
+	 */
 	getAllCountries(){
 		let countries = {};
+		//let countries = {'canada':{} };
 		
 		for( let c in this.state.countries){
 			let countryIndicators = {};		
+			//let countryIndicators = {'gdp':'11111111111'};		
 			
 			for(let i of this.state.indicators ){
 				
 				this.getCountryIndicator( c,i )
-					.then(function (repos) {
-						countryIndicators[i] = repos;
+					.then( (repos)=> {
+						countryIndicators[c] = repos;
 					})
-					.catch(function (err) {
+					.catch( (err)=> {
 						console.log(err);
 					});
 			}
 			
+			console.log(countryIndicators.gdp);
+			
 			countries[c] = countryIndicators;
+			if(countries[c].gdp)
+				console.log(countries[c].gdp);
 		}
-		this.setState({ countries:countries });
+		//this.setState({ countries:countries },()=>{
+		this.countries = countries;
+		
+		let canada = this.countries.canada;
+			console.log(  canada.gdp );
+			console.log(  canada );
+		//});
 	}
 	
   render() {
@@ -69,18 +102,7 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
+
         </header>
       </div>
     );
