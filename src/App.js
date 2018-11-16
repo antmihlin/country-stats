@@ -11,9 +11,7 @@ class App extends Component {
 		this.state = {
 			countries: {
 				'united states':{},
-				'canada':{
-					'gdp':'fgbvfgbfg'
-				},
+				'canada':{	},
 				'italy':{},
 				'israel':{},
 				'united kingdom':{},
@@ -29,24 +27,11 @@ class App extends Component {
 		this.getCountryIndicator = this.getCountryIndicator.bind(this);
 		this.getAllCountries = this.getAllCountries.bind(this);
 		
-		this.getAllCountries();
+		//this.getAllCountries();
 	}
 	
-	countries = {
-				'united states':{},
-				'canada':{
-					'gdp':'fgbvfgbfg'
-				},
-				'italy':{},
-				'israel':{},
-				'united kingdom':{},
-				'russia':{},
-				'ukraine':{},
-				'germany':{},
-				};
-	
 	componentDidMount(){
-		//this.getAllCountries();
+		this.getAllCountries();
 	}
 	
 	convertSpaces(item){		
@@ -75,27 +60,25 @@ class App extends Component {
 				
 				this.getCountryIndicator( c,i )
 					.then( (repos)=> {
-						countryIndicators[c] = repos;
+						countryIndicators[i] = repos;
 					})
 					.catch( (err)=> {
 						console.log(err);
 					});
-			}
-			
-			console.log(countryIndicators.gdp);
+			}			
 			
 			countries[c] = countryIndicators;
-			if(countries[c].gdp)
-				console.log(countries[c].gdp);
 		}
-		//this.setState({ countries:countries },()=>{
-		this.countries = countries;
-		
-		let canada = this.countries.canada;
-			console.log(  canada.gdp );
-			console.log(  canada );
-		//});
+		this.setState({ countries:countries },()=>{
+		let canadaGdp;
+		setTimeout( ()=>{
+			canadaGdp =  this.state.countries.canada.gdp;
+			console.log( canadaGdp[canadaGdp.length-1].Value );
+		},2000 );
+
+		});
 	}
+
 	
   render() {
 	  
