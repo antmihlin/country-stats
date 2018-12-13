@@ -13,7 +13,7 @@ const options = {
 };
 
 export const getCountryIndicator = (country,indicator) => {
-		const uri = `${Config.api.url}historical/country/${country}/indicator/${indicator}?${Config.api.client}&${Config.api.format}`;
+		const uri = `${Config.api.url}countries/${country}/indicators/${indicator}?${Config.api.format}`;
 		
 		options.uri = uri;
 	

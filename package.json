@@ -5,6 +5,7 @@
   "dependencies": {
     "immutability-helper": "^2.8.1",
     "react": "^16.6.1",
+    "react-billboardjs": "^1.5.0",
     "react-dom": "^16.6.1",
     "react-redux": "^5.1.0",
     "react-router": "^4.3.1",

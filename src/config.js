@@ -1,8 +1,7 @@
 
 const Config = {
 				api: {
-					url: 'https://api.tradingeconomics.com/',
-					client: 'c=guest:guest',
+					url: 'https://api.worldbank.org/v2/',
 					format:'format=json'
 				}
 			};
